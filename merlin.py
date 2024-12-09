@@ -18,11 +18,21 @@ from huggingface_hub import InferenceClient
 import subprocess
 import json
 
-load_dotenv("api.env",override=True)
+os.environ["VECTARA_API_KEY"] = st.secrets["VECTARA"]["API_KEY"]
+os.environ["VECTARA_CUSTOMER_ID"] = st.secrets["VECTARA"]["CUSTOMER_ID"]
+os.environ["VECTARA_CORPUS_ID"] = st.secrets["VECTARA"]["CORPUS_IDS"]
+os.environ["GROQ_API_KEY"] = st.secrets["GROQ"]["API_KEY"]
+os.environ["VECTARA_AGENTIC_AGENT_TYPE"] = st.secrets["AGENTIC"]["AGENT_TYPE"]
+os.environ["VECTARA_AGENTIC_MAIN_LLM_PROVIDER"] = st.secrets["AGENTIC"]["MAIN_LLM_PROVIDER"]
+os.environ["VECTARA_AGENTIC_TOOL_LLM_PROVIDER"] = st.secrets["AGENTIC"]["TOOL_LLM_PROVIDER"]
+os.environ["HUGGING_FACE_TOKEN"] = st.secrets["HUGGING_FACE"]["TOKEN"]
 
-api_key = str(os.environ['VECTARA_API_KEY'])
-customer_id = str(os.environ['VECTARA_CUSTOMER_ID'])
-corpus_id = str(os.environ['VECTARA_CORPUS_ID'])
+# Example: Accessing the environment variables
+api_key = str(os.environ("VECTARA_API_KEY"))
+customer_id = str(os.environ("VECTARA_CUSTOMER_ID"))
+corpus_id = str(os.environ("VECTARA_CORPUS_IDS"))
+hugging_face_token = str(os.environ("HUGGING_FACE_TOKEN"))
+
 
 # ========== SETUP VECTARA ==========
 vec_factory = VectaraToolFactory(
@@ -60,7 +70,7 @@ def gen_img(prompt: str = Field(description="Prompt for image generation."),) ->
     Returns:
         None: Displays the generated image.
     """
-    client = InferenceClient("black-forest-labs/FLUX.1-dev", token="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")
+    client = InferenceClient("black-forest-labs/FLUX.1-dev", token=hugging_face_token)
 
     try:
         image = client.text_to_image(prompt)
