@@ -1,7 +1,6 @@
 import streamlit as st
 from PIL import Image
 import os
-from dotenv import load_dotenv
 import streamlit as st
 import pandas as pd
 import requests
